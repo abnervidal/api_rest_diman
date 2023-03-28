@@ -23,6 +23,7 @@ import propertyRoutes from './routes/propertyRoutes';
 import providerRoutes from './routes/providerRoutes';
 import workerRoutes from './routes/workerRoutes';
 import manualRoutes from './routes/manualRoutes';
+import carRoutes from './routes/carRoutes';
 
 import loginRequired from './middlewares/loginRequired';
 
@@ -103,6 +104,7 @@ class App {
     this.app.use('/unidades/', unidadeRoutes);
     this.app.use('/properties/', propertyRoutes);
     this.app.use('/providers/', providerRoutes);
+    this.app.use('/cars/', carRoutes);
     this.app.use('/manualupdates/', manualRoutes);
   }
 }

@@ -57,6 +57,10 @@ import WorkerAddress from '../models/WorkerAddress';
 import BuildingSipac from '../models/BuildingSipac';
 import PropertySipac from '../models/PropertySipac';
 
+import Cartype from '../models/Cartype';
+import CarFueltype from '../models/CarFueltype';
+import Car from '../models/Car';
+
 const models = [
   Aluno,
   User,
@@ -104,6 +108,9 @@ const models = [
   Worker,
   PropertySipac,
   BuildingSipac,
+  Cartype,
+  CarFueltype,
+  Car,
 ];
 
 const connection = new Sequelize(databaseConfig[env]);
