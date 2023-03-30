@@ -3,6 +3,7 @@ import { Router } from 'express';
 import CarController from '../controllers/CarController';
 import CartypeController from '../controllers/CartypeController';
 import CarFueltypeController from '../controllers/CarFueltypeController';
+import CarPhotoController from '../controllers/CarPhotoController';
 
 const router = new Router();
 
@@ -11,5 +12,6 @@ router.post('/', CarController.store);
 
 router.get('/types', CartypeController.index);
 router.get('/fuel', CarFueltypeController.index);
+router.get('/photo', CarPhotoController.index);
 
 export default router;
