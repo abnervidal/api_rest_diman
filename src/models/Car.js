@@ -33,7 +33,7 @@ export default class Car extends Model {
           },
         },
         renavan: {
-          type: Sequelize.STRING,
+          type: Sequelize.INTEGER(12),
           allowNull: false,
         },
         year: {
