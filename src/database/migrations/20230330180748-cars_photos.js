@@ -1,9 +1,10 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     return queryInterface.createTable('cars_photos', {
-      cartype_id: {
+      car_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        primaryKey: false,
         references: {
           model: 'cars',
           key: 'id',
@@ -14,6 +15,7 @@ module.exports = {
       filename: {
         type: Sequelize.STRING,
         allowNull: false,
+        primaryKey: true,
       },
       original_name: {
         type: Sequelize.STRING,

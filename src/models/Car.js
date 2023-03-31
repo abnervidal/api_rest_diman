@@ -4,6 +4,7 @@ export default class Car extends Model {
   static associate(models) {
     this.belongsTo(models.Cartype);
     this.belongsTo(models.CarFueltype);
+    this.hasMany(models.CarPhoto);
   }
 
   static init(sequelize) {

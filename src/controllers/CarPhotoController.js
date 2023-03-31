@@ -1,18 +1,11 @@
-import CarPhotos from '../models/CarPhotos';
+import CarPhoto from '../models/CarPhoto';
 
 class ProviderController {
   // Index
 
   async index(req, res) {
     try {
-      // const result = await Provider.findAll({
-      //   attributes: {
-      //     include: [],
-      //   },
-      //   order: [['id', 'ASC']],
-      // });
-
-      const result = await CarPhotos.findAll();
+      const result = await CarPhoto.findAll();
 
       return res.json(result);
     } catch (e) {

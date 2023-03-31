@@ -1,21 +1,26 @@
 import Sequelize, { Model } from 'sequelize';
 
-export default class CarPhotos extends Model {
+export default class CarPhoto extends Model {
   static associate(models) {
-    this.hasMany(models.Car);
+    this.belongsTo(models.Car);
   }
 
   static init(sequelize) {
     super.init(
       {
-        id: {
+        filename: {
           type: Sequelize.INTEGER,
           allowNull: false,
           primaryKey: true,
         },
-        type: {
+        original_name: {
           type: Sequelize.STRING,
           allowNull: false,
+        },
+        order: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          timestamps: false,
         },
       },
 
