@@ -58,6 +58,7 @@ import BuildingSipac from '../models/BuildingSipac';
 import PropertySipac from '../models/PropertySipac';
 
 import Cartype from '../models/Cartype';
+import CarPhoto from '../models/CarPhoto';
 import CarFueltype from '../models/CarFueltype';
 import Car from '../models/Car';
 
@@ -111,6 +112,7 @@ const models = [
   Cartype,
   CarFueltype,
   Car,
+  CarPhoto,
 ];
 
 const connection = new Sequelize(databaseConfig[env]);

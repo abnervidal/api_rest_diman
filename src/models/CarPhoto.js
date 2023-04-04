@@ -13,7 +13,7 @@ export default class CarPhoto extends Model {
           allowNull: false,
           primaryKey: true,
         },
-        original_name: {
+        originalName: {
           type: Sequelize.STRING,
           allowNull: false,
         },

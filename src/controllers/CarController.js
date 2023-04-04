@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 import Car from '../models/Car';
 import CarFueltype from '../models/CarFueltype';
 import Cartype from '../models/Cartype';
+import CarPhoto from '../models/CarPhoto';
 
 class ProviderController {
   // Index
