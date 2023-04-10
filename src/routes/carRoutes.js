@@ -4,6 +4,7 @@ import CarController from '../controllers/CarController';
 import CartypeController from '../controllers/CartypeController';
 import CarFueltypeController from '../controllers/CarFueltypeController';
 import CarPhotoController from '../controllers/CarPhotoController';
+import CarOccurrencesController from '../controllers/CarOccurrencesController';
 
 const router = new Router();
 
@@ -12,6 +13,7 @@ router.post('/', CarController.store);
 
 router.get('/types', CartypeController.index);
 router.get('/fuel', CarFueltypeController.index);
+router.get('/occurrences', CarOccurrencesController.index);
 router.get('/photo', CarPhotoController.index);
 router.post('/photo', CarPhotoController.store);
 // router.get('/photo', CarPhotoController.show);
