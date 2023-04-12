@@ -24,6 +24,7 @@ import providerRoutes from './routes/providerRoutes';
 import workerRoutes from './routes/workerRoutes';
 import manualRoutes from './routes/manualRoutes';
 import carRoutes from './routes/carRoutes';
+import occurrenceCarRoutes from './routes/occurrenceCarRoutes';
 
 import loginRequired from './middlewares/loginRequired';
 
@@ -106,6 +107,7 @@ class App {
     this.app.use('/providers/', providerRoutes);
     this.app.use('/cars/', carRoutes);
     this.app.use('/manualupdates/', manualRoutes);
+    this.app.use('/occurrencecar/', occurrenceCarRoutes);
   }
 }
 
