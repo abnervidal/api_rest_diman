@@ -62,8 +62,8 @@ import CarPhoto from '../models/CarPhoto';
 import CarFueltype from '../models/CarFueltype';
 import Car from '../models/Car';
 
-import OccurrenceCar from '../models/OccurrenceCar';
-import OccurrenceCartype from '../models/OccurrenceCartype';
+import CarOccurrence from '../models/CarOccurrence';
+import CarOccurrencetype from '../models/CarOccurrencetype';
 
 const models = [
   Aluno,
@@ -116,8 +116,8 @@ const models = [
   CarFueltype,
   Car,
   CarPhoto,
-  OccurrenceCar,
-  OccurrenceCartype,
+  CarOccurrence,
+  CarOccurrencetype,
 ];
 
 const connection = new Sequelize(databaseConfig[env]);

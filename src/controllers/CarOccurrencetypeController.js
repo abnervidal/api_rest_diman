@@ -1,11 +1,11 @@
-import OccurrenceCartype from '../models/OccurrenceCartype';
+import CarOccurrencetype from '../models/CarOccurrencetype';
 
 class ProviderController {
   // Index
 
   async index(req, res) {
     try {
-      const result = await OccurrenceCartype.findAll();
+      const result = await CarOccurrencetype.findAll();
 
       return res.json(result);
     } catch (e) {

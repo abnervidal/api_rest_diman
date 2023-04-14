@@ -1,8 +1,8 @@
 import Sequelize, { Model } from 'sequelize';
 
-export default class OccurrenceCartype extends Model {
+export default class CarOccurrencetype extends Model {
   static associate(models) {
-    this.hasMany(models.OccurrenceCar);
+    this.hasMany(models.CarOccurrence);
   }
 
   static init(sequelize) {
@@ -19,7 +19,7 @@ export default class OccurrenceCartype extends Model {
         },
       },
 
-      { sequelize, tableName: 'occurrence_carstypes', timestamps: false },
+      { sequelize, tableName: 'cars_occurrencestype', timestamps: false },
     );
     return this;
   }

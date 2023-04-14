@@ -1,12 +1,12 @@
 import Sequelize from 'sequelize';
-import OccurrenceCar from '../models/OccurrenceCar';
+import CarOccurrence from '../models/CarOccurrence';
 
 class ProviderController {
   // Index
 
   async index(req, res) {
     try {
-      const result = await OccurrenceCar.findAll();
+      const result = await CarOccurrence.findAll();
 
       return res.json(result);
     } catch (e) {
@@ -19,7 +19,7 @@ class ProviderController {
   // Store
   async store(req, res) {
     try {
-      const occurrence = await OccurrenceCar.create(req.body);
+      const occurrence = await CarOccurrence.create(req.body);
       return res.json(occurrence);
     } catch (e) {
       return res.status(400).json({

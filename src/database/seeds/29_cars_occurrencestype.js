@@ -1,6 +1,6 @@
 module.exports = {
   async up(queryInterface) {
-    await queryInterface.bulkInsert('occurrence_cartype', [
+    await queryInterface.bulkInsert('cars_occurrencestype', [
       {
         id: 1,
         type: 'ACIDENTE',

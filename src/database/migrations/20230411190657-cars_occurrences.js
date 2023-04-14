@@ -1,13 +1,13 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.createTable('occurrences_cars', {
+    return queryInterface.createTable('cars_occurrences', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      cars_id: {
+      car_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -21,17 +21,17 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'workers',
-          key: 'id',
+          model: 'workers_contracts',
+          key: 'worker_id',
         },
         onDelete: 'RESTRICT',
         onUpdate: 'RESTRICT',
       },
-      occurrence_cartype_id: {
+      car_occurrencetype_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'occurrence_cartype',
+          model: 'cars_occurrencestype',
           key: 'id',
         },
         onDelete: 'CASCADE',
