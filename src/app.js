@@ -22,6 +22,8 @@ import unidadeRoutes from './routes/unidadeRoutes';
 import propertyRoutes from './routes/propertyRoutes';
 import providerRoutes from './routes/providerRoutes';
 import workerRoutes from './routes/workerRoutes';
+import workerTaskRoutes from './routes/workerTaskRoutes';
+
 import manualRoutes from './routes/manualRoutes';
 import carRoutes from './routes/carRoutes';
 import carOccurrenceRoutes from './routes/carOccurrenceRoutes';
@@ -82,7 +84,10 @@ class App {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(express.static(resolve(__dirname, '..', 'uploads')));
-    this.app.use('/uploads/', express.static(resolve(__dirname, '..', 'uploads')));
+    this.app.use(
+      '/uploads/',
+      express.static(resolve(__dirname, '..', 'uploads')),
+    );
     // this.app.use('/uploads/', express.static(resolve(__dirname, '..', 'uploads', 'workers', 'images')));
   }
 
@@ -98,6 +103,7 @@ class App {
 
     // Rotas fechadas
     this.app.use('/workers/', workerRoutes);
+    this.app.use('/workerstasks/', workerTaskRoutes);
     this.app.use('/users/', userRoutes);
     this.app.use('/alunos/', alunoRoutes);
     this.app.use('/fotos/', fotoRoutes);

@@ -3,6 +3,7 @@ import ManualController from '../controllers/ManualController';
 
 const router = new Router();
 
-router.get('/', ManualController.update);
+// router.get('/', ManualController.updateBulding2);
+// router.get('/outro', ManualController.updateBulding3);
 
 export default router;

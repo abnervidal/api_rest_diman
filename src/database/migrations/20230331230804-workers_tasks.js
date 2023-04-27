@@ -7,7 +7,7 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      req_maitenance: {
+      req_maintenance: {
         type: Sequelize.STRING(10),
         allowNull: true,
       },
@@ -17,7 +17,7 @@ module.exports = {
       },
       description: {
         type: Sequelize.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       start: {
         type: Sequelize.DATEONLY,
@@ -41,7 +41,7 @@ module.exports = {
       },
       place: {
         type: Sequelize.STRING(45),
-        allowNull: false,
+        allowNull: true,
       },
       property_sipac_id: {
         type: Sequelize.INTEGER,

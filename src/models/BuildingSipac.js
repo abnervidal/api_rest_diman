@@ -6,11 +6,22 @@ export default class BuildingSipac extends Model {
       sourceKey: 'id',
       foreignKey: 'propertySipacId',
     });
+    this.hasMany(models.BuildingSection, {
+      foreignKey: 'BuildingSipacSubRip',
+    });
+    this.hasMany(models.WorkerTask, {
+      sourceKey: 'subRip',
+      foreignKey: 'buildingSipacSubRip',
+    });
   }
 
   static init(sequelize) {
     super.init(
       {
+        subRip: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -35,7 +46,7 @@ export default class BuildingSipac extends Model {
           type: Sequelize.INTEGER(1),
           allowNull: true,
         },
-        num_infra: {
+        numInfra: {
           type: Sequelize.STRING,
           allowNull: true,
         },
@@ -47,12 +58,12 @@ export default class BuildingSipac extends Model {
           type: Sequelize.INTEGER(2),
           allowNull: true,
         },
-        inaugurated_at: {
+        inauguratedAt: {
           type: Sequelize.DATEONLY,
           allowNull: true,
         },
       },
-      { sequelize, tableName: 'buildings_sipac', timestamps: false }
+      { sequelize, tableName: 'buildings_sipac', timestamps: false },
     );
     return this;
   }

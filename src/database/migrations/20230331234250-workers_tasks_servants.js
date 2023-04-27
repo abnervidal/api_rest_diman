@@ -1,9 +1,10 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('worker_tasks_servants', {
+    await queryInterface.createTable('workers_tasks_servants', {
       worker_task_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        primaryKey: true,
         references: {
           model: 'workers_tasks',
           key: 'id',
@@ -14,6 +15,7 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        primaryKey: true,
         references: {
           model: 'users',
           key: 'id',
@@ -25,6 +27,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('worker_tasks_servants');
+    await queryInterface.dropTable('workers_tasks_servants');
   },
 };

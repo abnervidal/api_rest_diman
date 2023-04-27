@@ -1,41 +1,25 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('workers_tasks_status_photos', {
+    await queryInterface.createTable('workers_tasks_statuses_photos', {
       filename: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(45),
         allowNull: false,
         primaryKey: true,
       },
-      worker_task_id: {
+      worker_task_status_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true,
         references: {
-          model: {
-            tableName: 'workers_tasks_status',
-          },
-          key: 'worker_task_id',
+          model: 'workers_tasks_statuses',
+          key: 'id',
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
-      worker_task_statustype_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        references: {
-          model: {
-            tableName: 'workers_tasks_status',
-          },
-          key: 'workers_task_statustype_id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+        onUpdate: 'RESTRICT',
+        onDelete: 'RESTRICT',
       },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('workers_tasks_status_photos');
+    await queryInterface.dropTable('workers_tasks_statuses_photos');
   },
 };

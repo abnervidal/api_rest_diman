@@ -45,6 +45,16 @@ import WorkerContractDanger from '../models/WorkerContractDanger';
 import WorkerContractRegime from '../models/WorkerContractRegime';
 import WorkerContractUnhealthy from '../models/WorkerContractUnhealthy';
 
+import WorkerTaskRisktype from '../models/WorkerTaskRisktype';
+import WorkerTasktype from '../models/WorkerTasktype';
+import WorkerTaskStatustype from '../models/WorkerTaskStatustype';
+import WorkerTask from '../models/WorkerTask';
+import WorkerTaskStatus from '../models/WorkerTaskStatus';
+import WorkerTaskStatusPhoto from '../models/WorkerTaskStatusPhoto';
+import WorkerTaskRisk from '../models/WorkerTaskRisk';
+import WorkerTaskItem from '../models/WorkerTaskItem';
+import WorkerTaskServant from '../models/WorkerTaskServant';
+
 import Contract from '../models/Contract';
 import Provider from '../models/Provider';
 
@@ -56,6 +66,8 @@ import WorkerAddress from '../models/WorkerAddress';
 
 import BuildingSipac from '../models/BuildingSipac';
 import PropertySipac from '../models/PropertySipac';
+import BuildingSection from '../models/BuildingSection';
+import BuildingSectiontype from '../models/BuildingSectiontype';
 
 import Cartype from '../models/Cartype';
 import CarPhoto from '../models/CarPhoto';
@@ -131,17 +143,13 @@ models.forEach(
 // CUSTOMIZED FUNCTIONS SEQUELIZE
 // (simplifica as consultas, para não ter que repetir todas essas funções nos controllers)
 
-Sequelize.currencyBr = (column) => Sequelize.fn('CONCAT', Sequelize.literal('\'R$ \''), Sequelize.fn('FORMAT', Sequelize.col(column), '2', 'pt_BR'));
+Sequelize.currencyBr = (column) => Sequelize.fn(
+  'CONCAT',
+  Sequelize.literal("'R$ '"),
+  Sequelize.fn('FORMAT', Sequelize.col(column), '2', 'pt_BR'),
+);
 
-Sequelize.dataBr = (column) => Sequelize.fn(
-  'date_format',
-  Sequelize.col(column),
-  '%d/%m/%Y',
-);
-Sequelize.dataHoraBr = (column) => Sequelize.fn(
-  'date_format',
-  Sequelize.col(column),
-  '%d/%m/%Y %H:%i',
-);
+Sequelize.dataBr = (column) => Sequelize.fn('date_format', Sequelize.col(column), '%d/%m/%Y');
+Sequelize.dataHoraBr = (column) => Sequelize.fn('date_format', Sequelize.col(column), '%d/%m/%Y %H:%i');
 
 export default connection;

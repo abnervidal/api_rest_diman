@@ -1,31 +1,31 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('workers_tasks_status', {
+    await queryInterface.createTable('workers_tasks_statuses', {
+      id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       worker_task_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true,
         references: {
-          model: {
-            tableName: 'workers_tasks',
-          },
+          model: 'workers_tasks',
           key: 'id',
         },
-        onUpdate: 'NO ACTION',
-        onDelete: 'NO ACTION',
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
-      workers_task_statustype_id: {
+      worker_task_statustype_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true,
         references: {
-          model: {
-            tableName: 'workers_tasks_statustype',
-          },
+          model: 'workers_tasks_statusestypes',
           key: 'id',
         },
-        onUpdate: 'NO ACTION',
-        onDelete: 'NO ACTION',
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       user_id: {
         type: Sequelize.INTEGER,
@@ -49,6 +49,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('workers_tasks_status');
+    await queryInterface.dropTable('workers_tasks_statuses');
   },
 };

@@ -1,11 +1,8 @@
 import Sequelize, { Model } from 'sequelize';
 
-export default class WorkerTaskStatustype extends Model {
+export default class BuildingSectiontype extends Model {
   static associate(models) {
-    this.belongsToMany(models.WorkerTask, {
-      through: models.WorkerTaskStatus,
-    });
-    this.hasMany(models.WorkerTaskStatus);
+    this.hasMany(models.BuildingSection);
   }
 
   static init(sequelize) {
@@ -13,15 +10,19 @@ export default class WorkerTaskStatustype extends Model {
       {
         id: {
           type: Sequelize.INTEGER,
-          allowNull: false,
           primaryKey: true,
+          allowNull: false,
         },
         type: {
           type: Sequelize.STRING,
           allowNull: false,
         },
       },
-      { sequelize, tableName: 'workers_tasks_statusestypes', timestamps: false }
+      {
+        sequelize,
+        tableName: 'buildings_sectionstypes',
+        timestamps: false,
+      }
     );
     return this;
   }
