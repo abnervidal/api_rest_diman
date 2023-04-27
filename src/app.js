@@ -55,9 +55,8 @@ const whiteList = [
   'https://sisman.infra.ufrn.br:3000',
   'https://sisman.infra.ufrn.br:3002',
   'https://192.168.1.13',
-  'http://192.168.0.112:3000',
-  'http://10.52.10.209:3000',
-
+  'http://192.168.1.13:3000',
+  'http://192.168.1.13:3001',
 ];
 
 const corsOptions = {
@@ -79,7 +78,8 @@ class App {
 
   middlewares() {
     this.app.use(cors(corsOptions));
-    this.app.use(helmet());
+    this.app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' })); // tive q usar devido as fotos do boxlight
+    // this.app.use(helmet());
     // this.app.use(delay(2000));
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
