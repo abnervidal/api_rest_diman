@@ -19,7 +19,7 @@ export default class CarOccurrencetype extends Model {
         },
       },
 
-      { sequelize, tableName: 'cars_occurrencestype', timestamps: false },
+      { sequelize, tableName: 'cars_occurrencestypes', timestamps: false },
     );
     return this;
   }

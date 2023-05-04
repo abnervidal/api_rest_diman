@@ -1,12 +1,12 @@
 import Sequelize from 'sequelize';
-import CarOccurrence from '../models/CarOccurrence';
+import CarInspection from '../models/CarInspection';
 
-class OccurrenceController {
+class InspectionController {
   // Index
 
   async index(req, res) {
     try {
-      const result = await CarOccurrence.findAll();
+      const result = await CarInspection.findAll();
 
       return res.json(result);
     } catch (e) {
@@ -19,8 +19,8 @@ class OccurrenceController {
   // Store
   async store(req, res) {
     try {
-      const occurrence = await CarOccurrence.create(req.body);
-      return res.json(occurrence);
+      const inspection = await CarInspection.create(req.body);
+      return res.json(inspection);
     } catch (e) {
       return res.status(400).json({
         errors: [e.message],
@@ -29,4 +29,4 @@ class OccurrenceController {
   }
 }
 
-export default new OccurrenceController();
+export default new InspectionController();

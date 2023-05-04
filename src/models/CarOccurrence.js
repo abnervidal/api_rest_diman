@@ -10,18 +10,18 @@ export default class CarOccurrence extends Model {
   static init(sequelize) {
     super.init(
       {
-        carId: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        workerId: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        carOccurrencetypeId: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
+        // carId: {
+        //   type: Sequelize.INTEGER,
+        //   allowNull: false,
+        // },
+        // workerId: {
+        //   type: Sequelize.INTEGER,
+        //   allowNull: false,
+        // },
+        // carOccurrencetypeId: {
+        //   type: Sequelize.INTEGER,
+        //   allowNull: false,
+        // },
         data: {
           type: Sequelize.DATEONLY,
           allowNull: false,

@@ -1,6 +1,6 @@
 import CarFueltype from '../models/CarFueltype';
 
-class ProviderController {
+class FueltypeController {
   // Index
 
   async index(req, res) {
@@ -23,4 +23,4 @@ class ProviderController {
   }
 }
 
-export default new ProviderController();
+export default new FueltypeController();

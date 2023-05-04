@@ -1,6 +1,6 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.createTable('cars_occurrencestype', {
+    return queryInterface.createTable('cars_occurrencestypes', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,

@@ -1,4 +1,4 @@
-import CarOccurrencetype from '../models/CarOccurrencetype';
+import CarOccurrencetype from '../models/CarOccurrencetypes';
 
 class ProviderController {
   // Index

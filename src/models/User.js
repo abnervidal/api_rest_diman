@@ -18,7 +18,8 @@ export default class User extends Model {
     this.hasMany(models.MaterialRestrict);
     this.hasMany(models.MaterialRelease);
     this.hasMany(models.MaterialReserve);
-    this.hasMany(models.WorkerTaskServant);
+    this.hasMany(models.CarInspection);
+    // this.hasMany(models.WorkerTaskServant);
   }
 
   static init(sequelize) {

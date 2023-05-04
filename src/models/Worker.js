@@ -21,9 +21,9 @@ export default class Worker extends Model {
 
     this.hasMany(models.MaterialOut);
     this.hasMany(models.MaterialReserve);
-    this.hasMany(models.WorkerTaskItem);
+    // this.hasMany(models.WorkerTaskItem);
 
-    this.hasMany(models.CarOccurrence);
+    // this.hasMany(models.CarOccurrence);
   }
 
   static init(sequelize) {

@@ -9,10 +9,10 @@ export default class BuildingSipac extends Model {
     this.hasMany(models.BuildingSection, {
       foreignKey: 'BuildingSipacSubRip',
     });
-    this.hasMany(models.WorkerTask, {
-      sourceKey: 'subRip',
-      foreignKey: 'buildingSipacSubRip',
-    });
+    // this.hasMany(models.WorkerTask, {
+    //   sourceKey: 'subRip',
+    //   foreignKey: 'buildingSipacSubRip',
+    // });
   }
 
   static init(sequelize) {

@@ -4,7 +4,7 @@ import CarFueltype from '../models/CarFueltype';
 import Cartype from '../models/Cartype';
 import CarPhoto from '../models/CarPhoto';
 
-class ProviderController {
+class CarController {
   // Index
 
   async index(req, res) {
@@ -43,4 +43,4 @@ class ProviderController {
   }
 }
 
-export default new ProviderController();
+export default new CarController();
