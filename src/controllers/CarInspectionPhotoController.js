@@ -1,14 +1,14 @@
 import multer from 'multer';
-import CarPhoto from '../models/CarPhoto';
+import CarInspectionPhoto from '../models/CarInspectionPhoto';
 import multerConfig from '../config/multerConfig';
 
-const upload = multer(multerConfig).single('carPhoto');
-class CarPhotoController {
+const upload = multer(multerConfig).single('carInspectionPhoto');
+class CarInspectionPhotoController {
   // Index
 
   async index(req, res) {
     try {
-      const result = await CarPhoto.findAll();
+      const result = await CarInspectionPhoto.findAll();
 
       return res.json(result);
     } catch (e) {
@@ -22,19 +22,17 @@ class CarPhotoController {
 
   async store(req, res) {
     return upload(req, res, async (err) => {
-      console.log('aqui', req);
+      // console.log('aqui', req);
       if (err) {
         return res.status(400).json({
           error: [err.code],
         });
       }
       try {
-        const {
-          originalName, filename, order, CarId,
-        } = req.body;
-        // const { car_id } = req.body;
-        const photo = await CarPhoto.create({
-          originalName, filename, order, CarId,
+        const { originalName, filename } = req.body;
+        const { car_inspection_id } = req.body;
+        const photo = await CarInspectionPhoto.create({
+          originalName, filename, car_inspection_id,
         });
         return res.json(photo);
       } catch (e) {
@@ -46,4 +44,4 @@ class CarPhotoController {
   }
 }
 
-export default new CarPhotoController();
+export default new CarInspectionPhotoController();

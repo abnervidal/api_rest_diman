@@ -4,21 +4,25 @@ export default class CarInspection extends Model {
   static associate(models) {
     this.belongsTo(models.Car);
     this.belongsTo(models.User);
+    this.hasMany(models.CarInspectionPhoto);
   }
 
   static init(sequelize) {
     super.init(
       {
-        id: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          primaryKey: true,
-        },
+        // carId: {
+        //   type: Sequelize.INTEGER,
+        //   allowNull: false,
+        // },
+        // userId: {
+        //   type: Sequelize.INTEGER,
+        //   allowNull: false,
+        // },
         milage: {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
-        data: {
+        date: {
           type: Sequelize.DATEONLY,
           allowNull: false,
         },
