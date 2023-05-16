@@ -1,4 +1,6 @@
+/* eslint-disable max-len */
 import Sequelize, { Model } from 'sequelize';
+import appConfig from '../config/appConfig';
 
 export default class CarPhoto extends Model {
   static associate(models) {
@@ -6,26 +8,42 @@ export default class CarPhoto extends Model {
   }
 
   static init(sequelize) {
-    super.init(
-      {
-        filename: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          primaryKey: true,
+    super.init({
+
+      originalName: {
+        type: Sequelize.STRING,
+        defaultValue: '',
+        validate: {
+          notEmpty: {
+            msg: 'Não pode estar vazío',
+          },
         },
-        originalName: {
-          type: Sequelize.STRING,
-          allowNull: false,
+      },
+      filename: {
+        type: Sequelize.STRING,
+        primaryKey: true,
+        defaultValue: '',
+        validate: {
+          notEmpty: {
+            msg: 'Não pode estar vazío',
+          },
         },
-        order: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          timestamps: false,
+      },
+      order: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      src: {
+        type: Sequelize.VIRTUAL,
+        get() {
+          return `${appConfig.url}/uploads/cars/images/${this.getDataValue('filename')}`;
         },
       },
 
-      { sequelize, tableName: 'cars_photos', timestamps: false },
-    );
+    }, {
+      sequelize, tableName: 'cars_photos', timestamps: false,
+    });
+
     return this;
   }
 }
