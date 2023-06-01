@@ -2,9 +2,11 @@ import Sequelize from 'sequelize';
 import { extname } from 'path';
 import Car from '../models/Car';
 import CarFueltype from '../models/CarFueltype';
+import CarOccurrence from '../models/CarOccurrence';
 import Cartype from '../models/Cartype';
 import CarPhoto from '../models/CarPhoto';
 import { random_5 } from '../asset/script/getRandomNumber';
+import CarInspection from '../models/CarInspection';
 
 class CarController {
   // Index
@@ -19,7 +21,7 @@ class CarController {
       // });
 
       const result = await Car.findAll({
-        include: [CarFueltype, Cartype, CarPhoto],
+        include: [CarFueltype, Cartype, CarPhoto, CarOccurrence, CarInspection],
       });
 
       return res.json(result);

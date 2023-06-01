@@ -5,14 +5,14 @@ class ProviderController {
 
   async index(req, res) {
     try {
-      // const result = await Provider.findAll({
-      //   attributes: {
-      //     include: [],
-      //   },
-      //   order: [['id', 'ASC']],
-      // });
+      const result = await Cartype.findAll({
+        attributes: {
+          include: ['id', 'type'],
+        },
+        order: [['id', 'ASC']],
+      });
 
-      const result = await Cartype.findAll();
+      // const result = await Cartype.findAll();
 
       return res.json(result);
     } catch (e) {

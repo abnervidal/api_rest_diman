@@ -5,23 +5,12 @@ export default class CarOccurrence extends Model {
     this.belongsTo(models.CarOccurrencetype);
     this.belongsTo(models.Car);
     this.belongsTo(models.Worker);
+    this.hasMany(models.CarOccurrencePhoto);
   }
 
   static init(sequelize) {
     super.init(
       {
-        // carId: {
-        //   type: Sequelize.INTEGER,
-        //   allowNull: false,
-        // },
-        // workerId: {
-        //   type: Sequelize.INTEGER,
-        //   allowNull: false,
-        // },
-        // carOccurrencetypeId: {
-        //   type: Sequelize.INTEGER,
-        //   allowNull: false,
-        // },
         data: {
           type: Sequelize.DATEONLY,
           allowNull: false,

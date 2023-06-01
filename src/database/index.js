@@ -76,6 +76,7 @@ import Car from '../models/Car';
 
 import CarOccurrence from '../models/CarOccurrence';
 import CarOccurrencetype from '../models/CarOccurrencetypes';
+import CarOccurrencePhoto from '../models/CarOccurrencePhoto';
 
 import CarInspection from '../models/CarInspection';
 import CarInspectionPhoto from '../models/CarInspectionPhoto';
@@ -137,6 +138,7 @@ const models = [
   BuildingSectiontype,
   CarInspection,
   CarInspectionPhoto,
+  CarOccurrencePhoto,
 ];
 
 const connection = new Sequelize(databaseConfig[env]);

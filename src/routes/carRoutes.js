@@ -11,7 +11,6 @@ import CarOccurrenceController from '../controllers/CarOccurrenceController';
 import CarOccurrencetypeController from '../controllers/CarOccurrencetypeController';
 
 import CarInspectionController from '../controllers/CarInspectionController';
-// import CarInspectionPhotoController from '../controllers/CarInspectionPhotoController';
 
 import { photoArrayMulter } from '../config/multerConfig';
 
@@ -31,7 +30,7 @@ router.get('/fuel', CarFueltypeController.index);
 // router.post('/photo', CarPhotoController.store);
 
 occurrence.get('/', CarOccurrenceController.index);
-occurrence.post('/', CarOccurrenceController.store);
+occurrence.post('/', photoArrayMulter, CarOccurrenceController.store, UploadController.storeCarOccurrence);
 occurrence.get('/types', CarOccurrencetypeController.index);
 
 inspections.get('/', CarInspectionController.index);
