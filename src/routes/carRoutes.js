@@ -5,7 +5,6 @@ import UploadController from '../controllers/UploadController';
 import CarController from '../controllers/CarController';
 import CartypeController from '../controllers/CartypeController';
 import CarFueltypeController from '../controllers/CarFueltypeController';
-// import CarPhotoController from '../controllers/CarPhotoController';
 
 import CarOccurrenceController from '../controllers/CarOccurrenceController';
 import CarOccurrencetypeController from '../controllers/CarOccurrencetypeController';
@@ -26,8 +25,6 @@ router.post('/', photoArrayMulter, CarController.store, UploadController.storeCa
 
 router.get('/types', CartypeController.index);
 router.get('/fuel', CarFueltypeController.index);
-// router.get('/photo', CarPhotoController.index);
-// router.post('/photo', CarPhotoController.store);
 
 occurrence.get('/', CarOccurrenceController.index);
 occurrence.post('/', photoArrayMulter, CarOccurrenceController.store, UploadController.storeCarOccurrence);
@@ -35,6 +32,5 @@ occurrence.get('/types', CarOccurrencetypeController.index);
 
 inspections.get('/', CarInspectionController.index);
 inspections.post('/', photoArrayMulter, CarInspectionController.store, UploadController.storeCarInspection);
-// inspections.post('/photos', CarInspectionPhotoController.store);
 
 export default router;

@@ -6,10 +6,10 @@ class ProviderController {
   async index(req, res) {
     try {
       const result = await Cartype.findAll({
-        attributes: {
-          include: ['id', 'type'],
-        },
-        order: [['id', 'ASC']],
+        // attributes: {
+        //   include: ['id', 'type'],
+        // },
+        // order: [['id', 'ASC']],
       });
 
       // const result = await Cartype.findAll();
