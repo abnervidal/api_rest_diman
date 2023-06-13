@@ -5,6 +5,8 @@ import CarFueltype from '../models/CarFueltype';
 import CarOccurrence from '../models/CarOccurrence';
 import Cartype from '../models/Cartype';
 import CarPhoto from '../models/CarPhoto';
+import CarOccurrencePhoto from '../models/CarOccurrencePhoto';
+import CarInspectionPhoto from '../models/CarInspectionPhoto';
 import { random_5 } from '../asset/script/getRandomNumber';
 import CarInspection from '../models/CarInspection';
 
@@ -21,7 +23,16 @@ class CarController {
       // });
 
       const result = await Car.findAll({
-        include: [CarFueltype, Cartype, CarPhoto, CarOccurrence, CarInspection],
+        include: [CarFueltype, Cartype, CarPhoto, {
+          model: CarOccurrence,
+          // required: true,
+          include: [CarOccurrencePhoto],
+        },
+        {
+          model: CarInspection,
+          include: [CarInspectionPhoto],
+        },
+        ],
       });
 
       return res.json(result);

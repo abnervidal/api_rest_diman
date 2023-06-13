@@ -1,16 +1,22 @@
 import Sequelize from 'sequelize';
 import { extname } from 'path';
+import Car from '../models/Car';
+import Cartype from '../models/Cartype';
 import CarInspection from '../models/CarInspection';
 import CarInspectionPhoto from '../models/CarInspectionPhoto';
 import { random_5 } from '../asset/script/getRandomNumber';
 
-class InspectionController {
+class CarInspectionController {
   // Index
 
   async index(req, res) {
     try {
       const result = await CarInspection.findAll({
-        include: [CarInspectionPhoto],
+        include: [CarInspectionPhoto, {
+          model: Car,
+          // required: true,
+          include: [Cartype],
+        }],
       });
 
       return res.json(result);
@@ -59,4 +65,4 @@ class InspectionController {
   }
 }
 
-export default new InspectionController();
+export default new CarInspectionController();

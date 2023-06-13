@@ -1,17 +1,24 @@
 import Sequelize from 'sequelize';
 import { extname } from 'path';
 import { random_5 } from '../asset/script/getRandomNumber';
+import Worker from '../models/Worker';
+import Car from '../models/Car';
+import Cartype from '../models/Cartype';
 import CarOccurrence from '../models/CarOccurrence';
 import CarOccurrencetypes from '../models/CarOccurrencetypes';
 import CarOccurrencePhoto from '../models/CarOccurrencePhoto';
 
-class OccurrenceController {
+class CarOccurrenceController {
   // Index
 
   async index(req, res) {
     try {
       const result = await CarOccurrence.findAll({
-        include: [CarOccurrencetypes, CarOccurrencePhoto],
+        include: [CarOccurrencetypes, CarOccurrencePhoto, Worker, {
+          model: Car,
+          // required: true,
+          include: [Cartype],
+        }],
       });
 
       return res.json(result);
@@ -60,4 +67,4 @@ class OccurrenceController {
   }
 }
 
-export default new OccurrenceController();
+export default new CarOccurrenceController();
