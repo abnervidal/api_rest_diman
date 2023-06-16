@@ -65,6 +65,33 @@ class CarOccurrenceController {
       });
     }
   }
+
+  // Update
+  async update(req, res) {
+    try {
+      const { id } = req.params;
+      if (!id) { // verificação se id foi enviado
+        return res.status(400).json({
+          errors: ['ID não enviado'],
+        });
+      }
+
+      const car = await CarOccurrence.findByPk(id);
+
+      if (!car) {
+        return res.status(400).json({
+          errors: ['ID não existe'],
+        });
+      }
+
+      const newData = await car.update(req.body);
+      return res.json(newData);
+    } catch (e) {
+      return res.status(400).json({
+        errors: e.errors.map((err) => err.message),
+      });
+    }
+  }
 }
 
 export default new CarOccurrenceController();
