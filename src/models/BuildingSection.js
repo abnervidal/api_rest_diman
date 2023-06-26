@@ -13,7 +13,7 @@ export default class BuildingSection extends Model {
     super.init(
       {
         superId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           allowNull: true,
         },
         name: {
@@ -31,6 +31,10 @@ export default class BuildingSection extends Model {
         },
         obs: {
           type: Sequelize.STRING,
+          allowNull: true,
+        },
+        position: {
+          type: Sequelize.INTEGER,
           allowNull: true,
         },
       },

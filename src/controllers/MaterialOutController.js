@@ -1,4 +1,5 @@
-import Sequelize from 'sequelize';
+import Sequelize, { Op } from 'sequelize';
+import qs from 'qs';
 
 import { extname } from 'path';
 import { random_5 } from '../asset/script/getRandomNumber';
@@ -76,6 +77,28 @@ class MaterialOutController {
 
   async index(req, res) {
     try {
+      let firstDay;
+      let lastDay;
+
+      const queryParams = Object.keys(req.query).length === 0 ? false : qs.parse(req.query);
+
+      if (queryParams) {
+        const startDate = queryParams.startDate?.split('-');
+        const endDate = queryParams.endDate?.split('-');
+
+        firstDay = new Date(
+          startDate[0],
+          Number(startDate[1]) - 1,
+          startDate[2],
+        );
+
+        firstDay.setUTCHours(0, 0, 0, 0);
+
+        lastDay = new Date(endDate[0], Number(endDate[1]) - 1, endDate[2]);
+
+        lastDay.setUTCHours(23, 59, 59, 999);
+      }
+
       const result = await MaterialOut.findAll({
         attributes: {
           include: [
@@ -92,7 +115,7 @@ class MaterialOutController {
               Sequelize.fn(
                 'date_format',
                 Sequelize.col('`MaterialOut`.`updated_At`'),
-                '%d/%m/%Y'
+                '%d/%m/%Y',
               ),
               'updatedAtBr',
             ],
@@ -113,7 +136,7 @@ class MaterialOutController {
               ],
               [
                 Sequelize.literal(
-                  '`MaterialOutItems->Material`.`specification`'
+                  '`MaterialOutItems->Material`.`specification`',
                 ),
                 'specification',
               ],
@@ -156,26 +179,26 @@ class MaterialOutController {
                 ['material_id', 'materialId'],
                 [
                   Sequelize.literal(
-                    '`MaterialReturned->MaterialInItems->Material`.`name`'
+                    '`MaterialReturned->MaterialInItems->Material`.`name`',
                   ),
                   'name',
                 ],
                 [
                   Sequelize.literal(
-                    '`MaterialReturned->MaterialInItems->Material`.`specification`'
+                    '`MaterialReturned->MaterialInItems->Material`.`specification`',
                   ),
                   'specification',
                 ],
                 [
                   Sequelize.literal(
-                    '`MaterialReturned->MaterialInItems->Material`.`unit`'
+                    '`MaterialReturned->MaterialInItems->Material`.`unit`',
                   ),
                   'unit',
                 ],
                 'quantity',
                 [
                   Sequelize.currencyBr(
-                    '`MaterialReturned->MaterialInItems`.`value`'
+                    '`MaterialReturned->MaterialInItems`.`value`',
                   ),
                   'value',
                 ],
@@ -209,6 +232,14 @@ class MaterialOutController {
             required: false,
           },
         ],
+        where: queryParams
+          ? {
+            created_at: {
+              [Op.lte]: lastDay,
+              [Op.gte]: firstDay,
+            },
+          }
+          : {},
         order: [['id', 'DESC']],
       });
       return res.json(result);

@@ -2,22 +2,13 @@ import Sequelize, { Op } from 'sequelize';
 import qs from 'qs';
 
 import Material from '../models/Material';
-import MaterialIn from '../models/MaterialIn';
-import MaterialInItem from '../models/MaterialInItem';
-
 import MaterialOut from '../models/MaterialOut';
+import MaterialOutItem from '../models/MaterialOutItem';
 
-class MaterialInItemController {
+class MaterialOutItemController {
   async index(req, res) {
     try {
-      const result = await MaterialInItem.findAll({
-        attributes: [
-          'material_id',
-          [Sequelize.literal('name'), 'name'],
-          [Sequelize.literal('specification'), 'specification'],
-          [Sequelize.literal('unit'), 'unit'],
-          [Sequelize.fn('sum', Sequelize.col('quantity')), 'total'],
-        ],
+      const result = await MaterialOutItem.findAll({
         group: ['material_id'],
         order: Sequelize.literal('name'),
         required: false,
@@ -62,22 +53,16 @@ class MaterialInItemController {
       const result = await Material.findAll({
         order: Sequelize.literal('name'),
         include: {
-          model: MaterialInItem,
+          model: MaterialOutItem,
           required: true,
           include: {
-            model: MaterialIn,
-
+            model: MaterialOut,
+            attributes: ['workerId'],
             required: true,
-            include: {
-              model: MaterialOut,
-              as: 'MaterialReturned',
-              attributes: ['workerId'],
-              required: true,
-              where: { worker_id: { [Op.not]: null } },
-            },
             where: {
               [Op.and]: [
-                { material_intype_id: 3 },
+                { material_outtype_id: 1 },
+                { worker_id: { [Op.not]: null } },
                 queryParams
                   ? {
                       created_at: {
@@ -94,8 +79,8 @@ class MaterialInItemController {
 
       result.forEach((material, index) => {
         // show differents workers for each material
-        const workersList = material.MaterialInItems.map((item) => ({
-          WorkerId: item.dataValues.MaterialIn.MaterialReturned.workerId,
+        const workersList = material.MaterialOutItems.map((item) => ({
+          WorkerId: item.dataValues.MaterialOut.workerId,
         }));
 
         material.dataValues.Workers = workersList.reduce((acc, current) => {
@@ -109,9 +94,8 @@ class MaterialInItemController {
 
       result.forEach((material) => {
         material.dataValues.Workers.forEach((worker) => {
-          worker.materialsInItems = material.MaterialInItems.filter(
-            (item) =>
-              item.MaterialIn.MaterialReturned.workerId === worker.WorkerId
+          worker.materialsOutItems = material.MaterialOutItems.filter(
+            (item) => item.MaterialOut.workerId === worker.WorkerId
           );
         });
       });
@@ -123,4 +107,4 @@ class MaterialInItemController {
   }
 }
 
-export default new MaterialInItemController();
+export default new MaterialOutItemController();

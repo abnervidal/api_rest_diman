@@ -7,14 +7,26 @@ import BuildingSectionController from '../controllers/BuildingSectionController'
 
 const router = new Router();
 
+const buildingRoutes = new Router();
+const sectionRoutes = new Router();
+
+router.use('/buildings/', buildingRoutes);
+
+buildingRoutes.use('/sections/', sectionRoutes);
+
+// properties
 router.get('/', PropertySipacController.index);
-router.get('/buildings/sections', BuildingSectionController.index);
-router.post('/buildings/sections/subRip', BuildingSectionController.show);
-router.post(
-  '/buildings/sections/recursive',
-  BuildingSectionController.recursive
-);
-router.get('/buildings/sectionstypes', BuildingSectiontypeController.index);
-router.get('/buildings', BuldingSipacController.index);
+
+// buildings
+buildingRoutes.get('/:subRip', BuldingSipacController.show);
+buildingRoutes.get('/', BuldingSipacController.index);
+buildingRoutes.put('/:subRip', BuldingSipacController.update);
+
+// sections
+sectionRoutes.get('/', BuildingSectionController.index);
+sectionRoutes.post('/bulk', BuildingSectionController.storeBulk);
+sectionRoutes.post('/subRip', BuildingSectionController.show);
+sectionRoutes.get('/recursive/:subRip', BuildingSectionController.recursive);
+sectionRoutes.get('/sectionstypes', BuildingSectiontypeController.index);
 
 export default router;

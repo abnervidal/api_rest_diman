@@ -23,6 +23,8 @@ import propertyRoutes from './routes/propertyRoutes';
 import providerRoutes from './routes/providerRoutes';
 import workerRoutes from './routes/workerRoutes';
 import workerTaskRoutes from './routes/workerTaskRoutes';
+import workerManualfrequencyRoutes from './routes/workerManualfrequencyRoutes';
+import contractRoutes from './routes/contractRoutes';
 
 import manualRoutes from './routes/manualRoutes';
 import carRoutes from './routes/carRoutes';
@@ -32,7 +34,7 @@ import loginRequired from './middlewares/loginRequired';
 import scheduledTasks from './scheduledTasks';
 
 // TAREFAS AGENDADAS COM PROBLEMA, VERIFICAR PARA DEPOIS ATIVAR
-// scheduledTasks();
+scheduledTasks();
 
 const whiteList = [
   'http://localhost:3000',
@@ -53,9 +55,11 @@ const whiteList = [
   'https://sisman.infra.ufrn.br:443',
   'https://sisman.infra.ufrn.br:3000',
   'https://sisman.infra.ufrn.br:3002',
-  'https://192.168.1.13',
-  'http://192.168.1.13:3000',
-  'http://192.168.1.13:3001',
+  'https://192.168.1.12',
+  'http://192.168.1.12:3000',
+  'http://192.168.1.12:3001',
+  'http://10.52.10.121:3000',
+  'http://10.50.10.121:3001',
 ];
 
 const corsOptions = {
@@ -103,6 +107,7 @@ class App {
     // Rotas fechadas
     this.app.use('/workers/', workerRoutes);
     this.app.use('/workerstasks/', workerTaskRoutes);
+    this.app.use('/workersmanualfrequencies/', workerManualfrequencyRoutes);
     this.app.use('/users/', userRoutes);
     this.app.use('/alunos/', alunoRoutes);
     this.app.use('/fotos/', fotoRoutes);
@@ -110,6 +115,7 @@ class App {
     this.app.use('/unidades/', unidadeRoutes);
     this.app.use('/properties/', propertyRoutes);
     this.app.use('/providers/', providerRoutes);
+    this.app.use('/contracts/', contractRoutes);
     this.app.use('/cars/', carRoutes);
     this.app.use('/manualupdates/', manualRoutes);
   }

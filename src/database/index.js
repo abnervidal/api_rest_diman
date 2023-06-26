@@ -55,12 +55,17 @@ import WorkerTaskRisk from '../models/WorkerTaskRisk';
 import WorkerTaskItem from '../models/WorkerTaskItem';
 import WorkerTaskServant from '../models/WorkerTaskServant';
 
+import WorkerManualfrequency from '../models/WorkerManualfrequency';
+import WorkerManualfrequencytype from '../models/WorkerManualfrequencytype';
+import WorkerManualfrequencyItem from '../models/WorkerManualfrequencyItem';
+
 import Contract from '../models/Contract';
 import Provider from '../models/Provider';
 
 import ContractValidy from '../models/ContractValidy';
 import ContractValidyItem from '../models/ContractValidyItem';
 import ContractValidytype from '../models/ContractValidytype';
+import ContractUnidade from '../models/ContractUnidade';
 import Address from '../models/Address';
 import WorkerAddress from '../models/WorkerAddress';
 
@@ -123,6 +128,7 @@ const models = [
   ContractValidy,
   ContractValidyItem,
   ContractValidytype,
+  ContractUnidade,
   Address,
   WorkerAddress,
   Worker,
@@ -139,6 +145,18 @@ const models = [
   CarInspection,
   CarInspectionPhoto,
   CarOccurrencePhoto,
+  WorkerTaskRisktype,
+  WorkerTasktype,
+  WorkerTaskStatustype,
+  WorkerTask,
+  WorkerTaskStatus,
+  WorkerTaskStatusPhoto,
+  WorkerTaskRisk,
+  WorkerTaskItem,
+  WorkerTaskServant,
+  WorkerManualfrequency,
+  WorkerManualfrequencytype,
+  WorkerManualfrequencyItem,
 ];
 
 const connection = new Sequelize(databaseConfig[env]);
