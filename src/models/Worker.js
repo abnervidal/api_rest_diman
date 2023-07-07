@@ -20,6 +20,7 @@ export default class Worker extends Model {
     this.hasMany(models.WorkerContract);
 
     this.hasMany(models.MaterialOut);
+
     this.hasMany(models.MaterialReserve);
     // this.hasMany(models.WorkerTaskItem);
 

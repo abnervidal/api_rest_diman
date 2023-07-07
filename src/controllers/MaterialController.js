@@ -236,6 +236,151 @@ class MaterialController {
       return res.json(e);
     }
   }
+
+  // Worker x Material
+  async indexWorkerMaterial(req, res) {
+    try {
+      let firstDay;
+      let lastDay;
+
+      const queryParams = Object.keys(req.query).length === 0 ? false : qs.parse(req.query);
+
+      console.log(queryParams);
+
+      if (queryParams) {
+        const startDate = queryParams.startDate?.split('-');
+        const endDate = queryParams.endDate?.split('-');
+
+        firstDay = new Date(
+          startDate[0],
+          Number(startDate[1]) - 1,
+          startDate[2],
+        );
+
+        firstDay.setUTCHours(0, 0, 0, 0);
+
+        lastDay = new Date(endDate[0], Number(endDate[1]) - 1, endDate[2]);
+
+        lastDay.setUTCHours(23, 59, 59, 999);
+      }
+
+      const result = await Worker.findAll({
+        attributes: ['id', 'name'],
+        // where: {
+        //   id: {
+        //     [Op.in]: queryParams.id ? queryParams.id : [],
+        //   },
+        // },
+        include: [
+          {
+
+            model: MaterialOut,
+            attributes: ['id'],
+            // attributes: { include: ['workerId', 'reqMaintenance', 'created_at', 'place'] },
+            include: {
+              model: MaterialOutItem,
+              attributes: {
+                include: [
+                  [Sequelize.literal('`MaterialOuts->MaterialOutItems->Material`.`name`'), 'name'],
+                  [Sequelize.literal('`MaterialOuts->MaterialOutItems->Material`.`unit`'), 'unit'],
+                ],
+              },
+              include: [{ model: Material, attributes: [] }, {
+                model: MaterialOut,
+                attributes: ['reqMaintenance', 'created_at', 'place'],
+              }],
+            },
+            required: true,
+            where: {
+              [Op.and]: [
+                { material_outtype_id: 1 },
+                { worker_id: { [Op.not]: null } },
+                queryParams
+                  ? {
+                    created_at: {
+                      [Op.lte]: lastDay,
+                      [Op.gte]: firstDay,
+                    },
+                  }
+                  : {},
+              ],
+            },
+
+          },
+          // {
+          //   model: MaterialInItem,
+          //   // required: true,
+          //   include: {
+          //     model: MaterialIn,
+          //     attributes: ['MaterialIntypeId', 'reqMaintenance', 'created_at'],
+          //     required: true,
+          //     include: {
+          //       model: MaterialOut,
+          //       as: 'MaterialReturned',
+          //       attributes: ['workerId', 'place'],
+          //       required: true,
+          //       where: { worker_id: { [Op.not]: null } },
+          //     },
+          //     where: {
+          //       [Op.and]: [
+          //         { material_intype_id: 3 },
+          //         queryParams
+          //           ? {
+          //             created_at: {
+          //               [Op.lte]: lastDay,
+          //               [Op.gte]: firstDay,
+          //             },
+          //           }
+          //           : {},
+          //       ],
+          //     },
+          //   },
+          // },
+        ],
+      });
+
+      result.forEach((worker, index) => {
+        // show differents materials for each worker
+        const materialsList = [];
+
+        worker.MaterialOuts.forEach((materialOut) => {
+          // console.log(materialOut);
+          materialsList.push(materialOut.dataValues.MaterialOutItems.map((item) => ({
+            MaterialId: item.dataValues.MaterialId,
+            name: item.dataValues.name,
+          })));
+        });
+
+        const materialsListFlat = materialsList.flat();
+
+        worker.dataValues.Materials = materialsListFlat.reduce((acc, current) => {
+          const x = acc.find((item) => item.MaterialId === current.MaterialId);
+          if (!x) {
+            return acc.concat([current]);
+          }
+          return acc;
+        }, []);
+      });
+
+      result.forEach((worker) => {
+        worker.dataValues.Materials.forEach((material) => {
+          // falta ajeitar aqui
+          material.materialsOutItems = worker.MaterialOuts.filter(
+            (item) => item.MaterialOut.workerId === worker.WorkerId,
+          );
+
+          // worker.materialsInItems = material.MaterialInItems.filter(
+          //   (item) => item.MaterialIn.MaterialReturned.workerId === worker.WorkerId,
+          // );
+        });
+      });
+
+      return res.json(result);
+    } catch (e) {
+      console.log(e);
+      return res.json(e);
+    }
+  }
 }
 
 export default new MaterialController();
