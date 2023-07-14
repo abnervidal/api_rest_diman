@@ -5,10 +5,12 @@ import CarFueltype from '../models/CarFueltype';
 import CarOccurrence from '../models/CarOccurrence';
 import Cartype from '../models/Cartype';
 import CarPhoto from '../models/CarPhoto';
-import CarOccurrencePhoto from '../models/CarOccurrencePhoto';
-import CarInspectionPhoto from '../models/CarInspectionPhoto';
 import { random_5 } from '../asset/script/getRandomNumber';
 import CarInspection from '../models/CarInspection';
+import CarAccessory from '../models/CarAccessory';
+// import CarAccessorytype from '../models/CarAccessorytype';
+import CarStatus from '../models/CarStatus';
+// import CarStatustype from '../models/CarStatustype';
 
 class CarController {
   // Index
@@ -16,7 +18,7 @@ class CarController {
   async index(req, res) {
     try {
       const result = await Car.findAll({
-        include: [CarFueltype, Cartype, CarPhoto, CarOccurrence, CarInspection],
+        include: [CarFueltype, Cartype, CarPhoto, CarOccurrence, CarInspection, CarAccessory, CarStatus],
       });
 
       return res.json(result);
@@ -47,7 +49,7 @@ class CarController {
         }
       }
       const car = await Car.create(req.body, {
-        include: [CarPhoto],
+        include: [CarPhoto, CarAccessory, CarStatus],
       });
       if (req.files) {
         req.result = car;

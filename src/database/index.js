@@ -86,6 +86,12 @@ import CarOccurrencePhoto from '../models/CarOccurrencePhoto';
 import CarInspection from '../models/CarInspection';
 import CarInspectionPhoto from '../models/CarInspectionPhoto';
 
+import CarAccessory from '../models/CarAccessory';
+import CarAccessorytype from '../models/CarAccessorytype';
+
+import CarStatus from '../models/CarStatus';
+import CarStatustype from '../models/CarStatustype';
+
 const models = [
   Aluno,
   User,
@@ -157,6 +163,10 @@ const models = [
   WorkerManualfrequency,
   WorkerManualfrequencytype,
   WorkerManualfrequencyItem,
+  CarAccessory,
+  CarAccessorytype,
+  CarStatus,
+  CarStatustype,
 ];
 
 const connection = new Sequelize(databaseConfig[env]);

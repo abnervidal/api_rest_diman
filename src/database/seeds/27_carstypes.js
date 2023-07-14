@@ -3,7 +3,7 @@ module.exports = {
     await queryInterface.bulkInsert('carstypes', [
       {
         id: 1,
-        type: 'CAMINHÃO',
+        type: 'CAMINHÃO TOCO',
       },
       {
         id: 2,
@@ -23,19 +23,39 @@ module.exports = {
       },
       {
         id: 6,
-        type: 'PASSEIO',
+        type: 'CARRO DE PASSEIO',
       },
       {
         id: 7,
-        type: 'REBOQUE',
+        type: 'REBOQUE (CARROCINHA)',
       },
       {
         id: 8,
-        type: 'TRATOR',
+        type: 'RETROESCAVADEIRA',
       },
       {
         id: 9,
         type: 'VAN',
+      },
+      {
+        id: 10,
+        type: 'CAMINHÃO BAÚ',
+      },
+      {
+        id: 11,
+        type: 'CAMINHÃO 3/4',
+      },
+      {
+        id: 12,
+        type: 'CAMINHÃO TRUCK',
+      },
+      {
+        id: 13,
+        type: 'MINICARREGADEIRA',
+      },
+      {
+        id: 14,
+        type: 'PÁ CARREGADEIRA',
       },
     ], {});
   },

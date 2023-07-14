@@ -4,6 +4,7 @@ export default class CarInspection extends Model {
   static associate(models) {
     this.belongsTo(models.Car);
     this.belongsTo(models.User);
+    this.belongsTo(models.Worker);
     this.hasMany(models.CarInspectionPhoto);
   }
 
@@ -32,6 +33,10 @@ export default class CarInspection extends Model {
         },
         external: {
           type: Sequelize.TEXT,
+          allowNull: true,
+        },
+        hourmeter: {
+          type: Sequelize.INTEGER,
           allowNull: true,
         },
         obs: {

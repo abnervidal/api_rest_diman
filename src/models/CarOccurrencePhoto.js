@@ -33,6 +33,14 @@ export default class CarOccurrencePhoto extends Model {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      width: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      height: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       src: {
         type: Sequelize.VIRTUAL,
         get() {

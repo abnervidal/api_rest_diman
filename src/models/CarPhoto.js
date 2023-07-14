@@ -33,6 +33,14 @@ export default class CarPhoto extends Model {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      width: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      height: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
       src: {
         type: Sequelize.VIRTUAL,
         get() {

@@ -11,14 +11,24 @@ import CarOccurrencetypeController from '../controllers/CarOccurrencetypeControl
 
 import CarInspectionController from '../controllers/CarInspectionController';
 
+import CarAccessoryController from '../controllers/CarAccessoryController';
+import CarAccessorytypeController from '../controllers/CarAccessorytypeController';
+
+import CarStatusController from '../controllers/CarStatusController';
+import CarStatustypeController from '../controllers/CarStatustypeController';
+
 import { photoArrayMulter } from '../config/multerConfig';
 
 const router = new Router();
 const occurrence = new Router();
 const inspections = new Router();
+const accessories = new Router();
+const statuses = new Router();
 
 router.use('/occurrences/', occurrence);
 router.use('/inspections/', inspections);
+router.use('/accessories/', accessories);
+router.use('/statuses/', statuses);
 
 router.get('/', CarController.index);
 router.put('/:id', CarController.update);
@@ -27,6 +37,15 @@ router.post('/', photoArrayMulter, CarController.store, UploadController.storeCa
 
 router.get('/types', CartypeController.index);
 router.get('/fuel', CarFueltypeController.index);
+
+accessories.get('/', CarAccessoryController.index);
+accessories.get('/types', CarAccessorytypeController.index);
+accessories.post('/', CarAccessoryController.store);
+accessories.put('/:id', CarAccessoryController.store);
+
+statuses.get('/', CarStatusController.index);
+statuses.get('/types', CarStatustypeController.index);
+statuses.post('/', CarStatusController.store);
 
 occurrence.get('/', CarOccurrenceController.index);
 occurrence.put('/:id', CarOccurrenceController.update);

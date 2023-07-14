@@ -7,6 +7,8 @@ export default class Car extends Model {
     this.hasMany(models.CarPhoto);
     this.hasMany(models.CarOccurrence);
     this.hasMany(models.CarInspection);
+    this.hasMany(models.CarAccessory);
+    this.hasMany(models.CarStatus);
   }
 
   static init(sequelize) {
@@ -40,7 +42,27 @@ export default class Car extends Model {
           allowNull: false,
         },
         year: {
-          type: Sequelize.INTEGER(4),
+          type: Sequelize.INTEGER(9),
+          allowNull: false,
+        },
+        chassi: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        payload: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        weight: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        fuelVolume: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        peopleCapacity: {
+          type: Sequelize.INTEGER,
           allowNull: false,
         },
         obs: {

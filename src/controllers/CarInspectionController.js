@@ -4,6 +4,7 @@ import Car from '../models/Car';
 import Cartype from '../models/Cartype';
 import CarInspection from '../models/CarInspection';
 import CarInspectionPhoto from '../models/CarInspectionPhoto';
+import Worker from '../models/Worker';
 import { random_5 } from '../asset/script/getRandomNumber';
 
 class CarInspectionController {
@@ -12,7 +13,7 @@ class CarInspectionController {
   async index(req, res) {
     try {
       const result = await CarInspection.findAll({
-        include: [CarInspectionPhoto, {
+        include: [CarInspectionPhoto, Worker, {
           model: Car,
           // required: true,
           include: [Cartype],

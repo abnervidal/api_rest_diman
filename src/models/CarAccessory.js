@@ -1,19 +1,20 @@
 import Sequelize, { Model } from 'sequelize';
 
-export default class CarOccurrence extends Model {
+export default class CarAccessory extends Model {
   static associate(models) {
-    this.belongsTo(models.CarOccurrencetype);
+    this.belongsTo(models.CarAccessorytype);
     this.belongsTo(models.Car);
-    this.belongsTo(models.Worker);
-    this.belongsTo(models.User);
-    this.hasMany(models.CarOccurrencePhoto);
   }
 
   static init(sequelize) {
     super.init(
       {
-        data: {
-          type: Sequelize.DATEONLY,
+        payload: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        dimension: {
+          type: Sequelize.STRING,
           allowNull: false,
         },
         obs: {
@@ -22,7 +23,7 @@ export default class CarOccurrence extends Model {
         },
       },
 
-      { sequelize, tableName: 'cars_occurrences' },
+      { sequelize, tableName: 'cars_accessories', timestamps: true },
     );
     return this;
   }

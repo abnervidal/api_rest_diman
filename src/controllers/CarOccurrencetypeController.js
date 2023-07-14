@@ -1,6 +1,6 @@
 import CarOccurrencetype from '../models/CarOccurrencetypes';
 
-class ProviderController {
+class CarOccurrencetypeController {
   // Index
 
   async index(req, res) {
@@ -16,4 +16,4 @@ class ProviderController {
   }
 }
 
-export default new ProviderController();
+export default new CarOccurrencetypeController();

@@ -19,6 +19,7 @@ export default class User extends Model {
     this.hasMany(models.MaterialRelease);
     this.hasMany(models.MaterialReserve);
     this.hasMany(models.CarInspection);
+    this.hasMany(models.CarOccurrence);
     // this.hasMany(models.WorkerTaskServant);
   }
 
