@@ -8,9 +8,9 @@ import CarPhoto from '../models/CarPhoto';
 import { random_5 } from '../asset/script/getRandomNumber';
 import CarInspection from '../models/CarInspection';
 import CarAccessory from '../models/CarAccessory';
-// import CarAccessorytype from '../models/CarAccessorytype';
+import CarAccessorytype from '../models/CarAccessorytype';
 import CarStatus from '../models/CarStatus';
-// import CarStatustype from '../models/CarStatustype';
+import CarStatustype from '../models/CarStatustype';
 
 class CarController {
   // Index
@@ -18,7 +18,15 @@ class CarController {
   async index(req, res) {
     try {
       const result = await Car.findAll({
-        include: [CarFueltype, Cartype, CarPhoto, CarOccurrence, CarInspection, CarAccessory, CarStatus],
+        include: [CarFueltype, Cartype, CarPhoto, CarOccurrence, CarInspection, {
+          model: CarAccessory,
+          // required: true,
+          include: [CarAccessorytype],
+        }, {
+          model: CarStatus,
+          // required: true,
+          include: [CarStatustype],
+        }],
       });
 
       return res.json(result);
@@ -81,7 +89,9 @@ class CarController {
         });
       }
 
-      const newData = await car.update(req.body);
+      const newData = await car.update(req.body, {
+        include: [CarAccessory],
+      });
       return res.json(newData);
     } catch (e) {
       return res.status(400).json({
@@ -89,25 +99,6 @@ class CarController {
       });
     }
   }
-
-  // Delete
-  // async delete(req, res) {
-  //   try {
-  //     const car = await Car.findByPk(req.body.carId);
-
-  //     if (!car) {
-  //       return res.status(400).json({
-  //         errors: ['ID não existe'],
-  //       });
-  //     }
-  //     await car.destroy();
-  //     return res.json(null);
-  //   } catch (e) {
-  //     return res.status(400).json({
-  //       errors: e.errors.map((err) => err.message),
-  //     });
-  //   }
-  // }
 }
 
 export default new CarController();

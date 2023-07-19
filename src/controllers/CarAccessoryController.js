@@ -27,16 +27,30 @@ class CarAccessoryController {
     }
   }
 
+  // Store Bulk (multiple items)
+  // async storeBulk(req, res) {
+  //   try {
+  //     const data = await CarAccessory.bulkCreate(req.body, {
+  //       updateOnDuplicate: ['CarAccessorytypeId'],
+  //     });
+  //     return res.json(data);
+  //   } catch (e) {
+  //     return res.status(400).json({
+  //       errors: e.errors.map((err) => err.message),
+  //     });
+  //   }
+  // }
+
   async update(req, res) {
     try {
-      const { id } = req.params;
-      if (!id) { // verificação se id foi enviado
+      const { car_id } = req.params;
+      if (!car_id) { // verificação se id foi enviado
         return res.status(400).json({
           errors: ['ID não enviado'],
         });
       }
 
-      const accessory = await CarAccessory.findByPk(id);
+      const accessory = await CarAccessory.findByPk(car_id);
 
       if (!accessory) {
         return res.status(400).json({
@@ -44,7 +58,9 @@ class CarAccessoryController {
         });
       }
 
-      const newData = await accessory.update(req.body);
+      const newData = await accessory.bulkCreate(req.body, {
+        updateOnDuplicate: ['CarAccessorytypeId'],
+      });
       return res.json(newData);
     } catch (e) {
       return res.status(400).json({

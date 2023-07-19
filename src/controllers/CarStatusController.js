@@ -8,6 +8,7 @@ class CarStatusController {
     try {
       const result = await CarStatus.findAll({
         include: [CarStatustype],
+        order: ['id', 'DESC'],
       });
 
       return res.json(result);
