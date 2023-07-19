@@ -12,6 +12,7 @@ import MaterialIn from '../models/MaterialIn';
 import MaterialInItem from '../models/MaterialInItem';
 
 import Worker from '../models/Worker';
+import WorkerContract from '../models/WorkerContract';
 
 class MaterialController {
   // Index
@@ -273,11 +274,16 @@ class MaterialController {
         // },
         include: [
           {
+            model: WorkerContract,
+            attributes: ['WorkerJobtypeId'],
+            order: [['start', 'DESC']],
+          },
+          {
 
             model: MaterialOut,
             attributes: ['id'],
             // attributes: { include: ['workerId', 'reqMaintenance', 'created_at', 'place'] },
-            include: {
+            include: [{
               model: MaterialOutItem,
               attributes: {
                 include: [
@@ -290,6 +296,38 @@ class MaterialController {
                 attributes: ['reqMaintenance', 'created_at', 'place'],
               }],
             },
+            {
+
+              model: MaterialIn,
+              as: 'MaterialReturned',
+              required: false,
+              attributes: ['id'],
+              // attributes: { include: ['workerId', 'reqMaintenance', 'created_at', 'place'] },
+              include: {
+                model: MaterialInItem,
+                // attributes: {
+                //   include: [
+                //     [Sequelize.literal('`MaterialIns->MaterialInItems->Material`.`name`'), 'name'],
+                //     [Sequelize.literal('`MaterialIns->MaterialInItems->Material`.`unit`'), 'unit'],
+                //   ],
+                // },
+              },
+              where: {
+                [Op.and]: [
+                  { material_intype_id: 3 },
+                  // { worker_id: { [Op.not]: null } },
+                  queryParams
+                    ? {
+                      created_at: {
+                        [Op.lte]: lastDay,
+                        [Op.gte]: firstDay,
+                      },
+                    }
+                    : {},
+                ],
+              },
+
+            }],
             required: true,
             where: {
               [Op.and]: [
@@ -307,6 +345,7 @@ class MaterialController {
             },
 
           },
+
           // {
           //   model: MaterialInItem,
           //   // required: true,
@@ -337,42 +376,78 @@ class MaterialController {
           //   },
           // },
         ],
+        order: [['name', 'ASC']],
       });
 
       result.forEach((worker, index) => {
         // show differents materials for each worker
-        const materialsList = [];
+        const materialsOutList = [];
+        const materialsReturnedList = [];
 
         worker.MaterialOuts.forEach((materialOut) => {
           // console.log(materialOut);
-          materialsList.push(materialOut.dataValues.MaterialOutItems.map((item) => ({
-            MaterialId: item.dataValues.MaterialId,
+          materialsOutList.push(materialOut.dataValues.MaterialOutItems.map((item) => ({
+            id: item.dataValues.MaterialId,
             name: item.dataValues.name,
+            quantity: item.dataValues.quantity,
+            unit: item.dataValues.unit,
+            value: item.dataValues.value,
+            total: Number((item.dataValues.quantity * item.dataValues.value).toFixed(2)),
+            MaterialOut: item.MaterialOut,
           })));
+
+          if (materialOut.dataValues.MaterialReturned.length) {
+            materialsReturnedList.push(materialOut.dataValues.MaterialReturned.map((returned) => (
+              returned.MaterialInItems.map((item) => ({
+                id: item.dataValues.MaterialId,
+                quantity: item.dataValues.quantity,
+                value: item.dataValues.value,
+                total: Number((item.dataValues.quantity * item.dataValues.value).toFixed(2)),
+              }))
+            )));
+          }
         });
 
-        const materialsListFlat = materialsList.flat();
+        const materialsOutListFlat = materialsOutList.flat();
+        const materialsReturnedListFlat = materialsReturnedList.flat().flat();
 
-        worker.dataValues.Materials = materialsListFlat.reduce((acc, current) => {
-          const x = acc.find((item) => item.MaterialId === current.MaterialId);
-          if (!x) {
-            return acc.concat([current]);
+        // só teste aqui
+        worker.dataValues.ReturnedList = materialsReturnedListFlat;
+
+        const materialsOutListObjects = materialsOutListFlat.reduce((acc, current) => {
+          const i = acc.findIndex((item) => item.id === current.id);
+          if (i === -1) {
+            return acc.concat([{
+              id: current.id, name: current.name, qtdOut: current.quantity, totalOut: current.total, MaterialOutItems: [current],
+            }]);
           }
+          acc[i].qtdOut += current.quantity;
+          acc[i].totalOut += current.total;
+          acc[i].MaterialOutItems.push(current);
           return acc;
         }, []);
-      });
 
-      result.forEach((worker) => {
-        worker.dataValues.Materials.forEach((material) => {
-          // falta ajeitar aqui
-          material.materialsOutItems = worker.MaterialOuts.filter(
-            (item) => item.MaterialOut.workerId === worker.WorkerId,
-          );
+        const materialsReturnedListObjects = materialsReturnedListFlat.reduce((acc, current) => {
+          const i = acc.findIndex((item) => item.id === current.id);
+          if (i === -1) {
+            return acc.concat([{
+              id: current.id, qtdReturned: current.quantity, totalReturned: current.total, MaterialReturnedItems: [current],
+            }]);
+          }
+          acc[i].qtdReturned += current.quantity;
+          acc[i].totalReturned += current.total;
+          acc[i].MaterialReturnedItems.push(current);
+          return acc;
+        }, []);
 
-          // worker.materialsInItems = material.MaterialInItems.filter(
-          //   (item) => item.MaterialIn.MaterialReturned.workerId === worker.WorkerId,
-          // );
+        const mergedArray = materialsOutListObjects.map((obj1) => {
+          const matchingObj = materialsReturnedListObjects.find((obj2) => obj2.id === obj1.id);
+          return { ...obj1, ...matchingObj };
         });
+
+        worker.dataValues.Materials = mergedArray;
+
+        // delete worker.dataValues.MaterialOuts;
       });
 
       return res.json(result);
