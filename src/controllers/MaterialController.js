@@ -108,8 +108,8 @@ class MaterialController {
     }
   }
 
-  // Material x Worker
-  async indexMaterialWorker(req, res) {
+  // Worker by Material
+  async indexWorkerByMaterial(req, res) {
     try {
       let firstDay;
       let lastDay;
@@ -128,11 +128,11 @@ class MaterialController {
           startDate[2],
         );
 
-        firstDay.setUTCHours(0, 0, 0, 0);
+        firstDay.setHours(0, 0, 0, 0);
 
         lastDay = new Date(endDate[0], Number(endDate[1]) - 1, endDate[2]);
 
-        lastDay.setUTCHours(23, 59, 59, 999);
+        lastDay.setHours(23, 59, 59, 999);
       }
 
       const result = await Material.findAll({
@@ -238,8 +238,8 @@ class MaterialController {
     }
   }
 
-  // Worker x Material
-  async indexWorkerMaterial(req, res) {
+  // Material by Worker
+  async indexMaterialByWorker(req, res) {
     try {
       let firstDay;
       let lastDay;
@@ -258,20 +258,20 @@ class MaterialController {
           startDate[2],
         );
 
-        firstDay.setUTCHours(0, 0, 0, 0);
+        firstDay.setHours(0, 0, 0, 0);
 
         lastDay = new Date(endDate[0], Number(endDate[1]) - 1, endDate[2]);
 
-        lastDay.setUTCHours(23, 59, 59, 999);
+        lastDay.setHours(23, 59, 59, 999);
       }
 
       const result = await Worker.findAll({
         attributes: ['id', 'name'],
-        // where: {
-        //   id: {
-        //     [Op.in]: queryParams.id ? queryParams.id : [],
-        //   },
-        // },
+        where: {
+          id: {
+            [Op.in]: queryParams.id ? queryParams.id : [],
+          },
+        },
         include: [
           {
             model: WorkerContract,
@@ -410,9 +410,6 @@ class MaterialController {
 
         const materialsOutListFlat = materialsOutList.flat();
         const materialsReturnedListFlat = materialsReturnedList.flat().flat();
-
-        // só teste aqui
-        worker.dataValues.ReturnedList = materialsReturnedListFlat;
 
         const materialsOutListObjects = materialsOutListFlat.reduce((acc, current) => {
           const i = acc.findIndex((item) => item.id === current.id);
