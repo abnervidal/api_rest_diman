@@ -35,11 +35,11 @@ export default class CarInspectionPhoto extends Model {
       },
       width: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       height: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       src: {
         type: Sequelize.VIRTUAL,

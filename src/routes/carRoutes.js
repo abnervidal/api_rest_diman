@@ -43,6 +43,7 @@ accessories.get('/types', CarAccessorytypeController.index);
 accessories.post('/', CarAccessoryController.store);
 // accessories.post('/bulk', CarAccessoryController.storeBulk);
 accessories.put('/', CarAccessoryController.update);
+accessories.delete('/:id', CarAccessoryController.delete);
 
 statuses.get('/', CarStatusController.index);
 statuses.get('/types', CarStatustypeController.index);
