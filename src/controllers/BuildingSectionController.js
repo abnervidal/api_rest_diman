@@ -33,7 +33,7 @@ class BuildingSectionController {
     try {
       const result = await BuildingSection.sequelize.query(
         `with recursive r as ( select bs.*, bst.type from buildings_sections as bs left join buildings_sectionstypes as bst on bs.building_sectiontype_id = bst.id where bs.building_sipac_sub_rip = '${req.params.subRip}' and isnull(bs.super_id) union all select bs.*, bst.type from r join buildings_sections as bs on bs.super_id = r.id left join buildings_sectionstypes as bst on r.building_sectiontype_id = bst.id ) select * from r order by position;`,
-        { type: QueryTypes.SELECT }
+        { type: QueryTypes.SELECT },
       );
 
       result.forEach((obj) => {

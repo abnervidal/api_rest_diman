@@ -1,3 +1,4 @@
+import Sequelize, { Op } from 'sequelize';
 import CarAccessory from '../models/CarAccessory';
 import CarAccessorytype from '../models/CarAccessorytype';
 
@@ -16,41 +17,44 @@ class CarAccessoryController {
     }
   }
 
-  async store(req, res) {
-    try {
-      const accessory = await CarAccessory.create(req.body);
-      return res.json(accessory);
-    } catch (e) {
-      return res.status(400).json({
-        errors: [e.message],
-      });
-    }
-  }
-
-  // Store Bulk (multiple items)
-  // async storeBulk(req, res) {
+  // async store(req, res) {
   //   try {
-  //     const data = await CarAccessory.bulkCreate(req.body, {
-  //       updateOnDuplicate: ['CarAccessorytypeId'],
-  //     });
-  //     return res.json(data);
+  //     const accessory = await CarAccessory.create(req.body);
+  //     return res.json(accessory);
   //   } catch (e) {
   //     return res.status(400).json({
-  //       errors: e.errors.map((err) => err.message),
+  //       errors: [e.message],
   //     });
   //   }
   // }
 
+  // Store Bulk (multiple items)
+  async store(req, res) {
+    try {
+      console.log(req.body);
+      const data = await CarAccessory.bulkCreate(req.body, {
+        updateOnDuplicate: ['dimension', 'payload', 'obs'],
+      });
+      return res.json(data);
+    } catch (e) {
+      return res.status(400).json({
+        errors: e.errors.map((err) => err.message),
+      });
+    }
+  }
+
+  // Update
   async update(req, res) {
     try {
-      const { car_id } = req.params;
-      if (!car_id) { // verificação se id foi enviado
+      const { CarId, CarAccessorytypeId } = req.params;
+
+      if (!CarId || !CarAccessorytypeId) { // verificação se id foi enviado
         return res.status(400).json({
           errors: ['ID não enviado'],
         });
       }
 
-      const accessory = await CarAccessory.findByPk(car_id);
+      const accessory = await CarAccessory.findByPk(CarId);
 
       if (!accessory) {
         return res.status(400).json({
@@ -58,11 +62,55 @@ class CarAccessoryController {
         });
       }
 
-      const newData = await accessory.bulkCreate(req.body, {
-        updateOnDuplicate: ['CarAccessorytypeId'],
+      const newData = await CarAccessory.update(req.body, {
+        where: {
+          car_id: CarId,
+          car_accessory_type_id: CarAccessorytypeId,
+        },
+        limit: 1,
       });
       return res.json(newData);
     } catch (e) {
+      return res.status(400).json({
+        errors: e.errors.map((err) => err.message),
+      });
+    }
+  }
+
+  async delete(req, res) {
+    try {
+      if (!req.body) {
+        return res.status(400).json({
+          errors: 'Parâmetros não enviados',
+        });
+      }
+
+      console.log(req.body);
+
+      const carAccessory = req.body.map((item) => ({
+        [Op.and]: [
+          { car_id: item.CarId },
+          { car_accessory_type_id: item.CarAccessorytypeId },
+        ],
+      }));
+
+      console.log(carAccessory);
+
+      const response = await CarAccessory.destroy({
+        where: {
+          [Op.or]: carAccessory,
+        },
+      });
+
+      if (!response) {
+        return res.status(400).json({
+          errors: 'Parâmetro(s) de id(s) não localizado(s) no banco',
+        });
+      }
+
+      return res.json(null);
+    } catch (e) {
+      console.log(e);
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
       });
