@@ -90,7 +90,7 @@ class CarAccessoryController {
       const carAccessory = req.body.map((item) => ({
         [Op.and]: [
           { car_id: item.CarId },
-          { car_accessory_type_id: item.CarAccessorytypeId },
+          // { car_accessory_type_id: item.CarAccessorytypeId },
         ],
       }));
 

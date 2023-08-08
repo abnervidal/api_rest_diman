@@ -33,7 +33,7 @@ router.use('/statuses/', statuses);
 router.get('/', CarController.index);
 router.put('/:id', CarController.update);
 // router.delete('/:id', CarController.delete);
-router.post('/', photoArrayMulter, CarController.store);
+router.post('/', photoArrayMulter, CarController.store, UploadController.storeCar);
 
 router.get('/types', CartypeController.index);
 router.get('/fuel', CarFueltypeController.index);
@@ -43,7 +43,7 @@ accessories.get('/types', CarAccessorytypeController.index);
 accessories.post('/', CarAccessoryController.store);
 // accessories.post('/bulk', CarAccessoryController.storeBulk);
 accessories.put('/', CarAccessoryController.update);
-accessories.delete('/:id', CarAccessoryController.delete);
+accessories.delete('/', CarAccessoryController.delete);
 
 statuses.get('/', CarStatusController.index);
 statuses.get('/types', CarStatustypeController.index);
