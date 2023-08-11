@@ -13,6 +13,7 @@ import MaterialInItem from '../models/MaterialInItem';
 
 import Worker from '../models/Worker';
 import WorkerContract from '../models/WorkerContract';
+import WorkerJobtype from '../models/WorkerJobtype';
 
 class MaterialController {
   // Index
@@ -267,22 +268,22 @@ class MaterialController {
 
       const result = await Worker.findAll({
         attributes: ['id', 'name'],
-        where: {
+        where: queryParams.id ? {
           id: {
-            [Op.in]: queryParams.id ? queryParams.id : [],
+            [Op.in]: queryParams.id,
           },
-        },
+        } : {},
         include: [
           {
             model: WorkerContract,
-            attributes: ['WorkerJobtypeId'],
+            attributes: ['WorkerJobtypeId', 'start', 'end'],
             order: [['start', 'DESC']],
+            include: [WorkerJobtype],
           },
           {
 
             model: MaterialOut,
-            attributes: ['id'],
-            // attributes: { include: ['workerId', 'reqMaintenance', 'created_at', 'place'] },
+            attributes: ['id', 'reqMaintenance', 'value', [Sequelize.fn('DATE_FORMAT', Sequelize.col('MaterialOuts.created_at'), '%Y-%m-%d'), 'createdAt']],
             include: [{
               model: MaterialOutItem,
               attributes: {
@@ -301,7 +302,7 @@ class MaterialController {
               model: MaterialIn,
               as: 'MaterialReturned',
               required: false,
-              attributes: ['id'],
+              attributes: ['id', 'reqMaintenance', 'created_at'],
               // attributes: { include: ['workerId', 'reqMaintenance', 'created_at', 'place'] },
               include: {
                 model: MaterialInItem,
@@ -316,14 +317,16 @@ class MaterialController {
                 [Op.and]: [
                   { material_intype_id: 3 },
                   // { worker_id: { [Op.not]: null } },
-                  queryParams
-                    ? {
-                      created_at: {
-                        [Op.lte]: lastDay,
-                        [Op.gte]: firstDay,
-                      },
-                    }
-                    : {},
+                  // eslint-disable-next-line no-nested-ternary
+                  queryParams.id ? {}
+                    : (queryParams
+                      ? {
+                        created_at: {
+                          [Op.lte]: lastDay,
+                          [Op.gte]: firstDay,
+                        },
+                      }
+                      : {}),
                 ],
               },
 
@@ -333,14 +336,16 @@ class MaterialController {
               [Op.and]: [
                 { material_outtype_id: 1 },
                 { worker_id: { [Op.not]: null } },
-                queryParams
-                  ? {
-                    created_at: {
-                      [Op.lte]: lastDay,
-                      [Op.gte]: firstDay,
-                    },
-                  }
-                  : {},
+                // eslint-disable-next-line no-nested-ternary
+                queryParams.id ? {}
+                  : (queryParams
+                    ? {
+                      created_at: {
+                        [Op.lte]: lastDay,
+                        [Op.gte]: firstDay,
+                      },
+                    }
+                    : {}),
               ],
             },
 
@@ -399,7 +404,10 @@ class MaterialController {
           if (materialOut.dataValues.MaterialReturned.length) {
             materialsReturnedList.push(materialOut.dataValues.MaterialReturned.map((returned) => (
               returned.MaterialInItems.map((item) => ({
+                reqMaintenance: returned.reqMaintenance,
+                created_at: returned.created_at,
                 id: item.dataValues.MaterialId,
+                unit: item.dataValues.unit,
                 quantity: item.dataValues.quantity,
                 value: item.dataValues.value,
                 total: Number((item.dataValues.quantity * item.dataValues.value).toFixed(2)),
@@ -415,7 +423,7 @@ class MaterialController {
           const i = acc.findIndex((item) => item.id === current.id);
           if (i === -1) {
             return acc.concat([{
-              id: current.id, name: current.name, qtdOut: current.quantity, totalOut: current.total, MaterialOutItems: [current],
+              id: current.id, name: current.name, unit: current.unit, qtdOut: current.quantity, totalOut: current.total, MaterialOutItems: [current],
             }]);
           }
           acc[i].qtdOut += current.quantity;
