@@ -167,6 +167,7 @@ const models = [
   CarAccessorytype,
   CarStatus,
   CarStatustype,
+
 ];
 
 const connection = new Sequelize(databaseConfig[env]);
